@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color:white;
+  height: 75px;
+  padding: 20px;
+  color: #337ab7;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.table {
+  background-color:white;
+  height: 75px;
+  padding: 20px;
+  margin-top: 20px;
+  color: #337ab7;
+  font-weight: bold;
+  font-style: italic;
+}
+
