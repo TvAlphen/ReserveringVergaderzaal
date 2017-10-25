@@ -8,10 +8,13 @@ class App {
     }
     mountRoutes() {
         const router = express.Router();
-        router.get('/hello', (req, res) => {
-            const data = {
-                "name": 'Hello World',
-                "enthusiasmLevel": 10
+        router.get('/meetingRooms', (req, res) => {
+            const data = { rooms: [
+                    'vergaderzaal 1',
+                    'vergaderzaal 2',
+                    'vergaderzaal 3',
+                    'vergaderzaal 4'
+                ]
             };
             res.json(data);
         });

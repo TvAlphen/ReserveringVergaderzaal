@@ -8,6 +8,7 @@ interface IState {
   date: Date | null;
   tableVisible: boolean;
   meetingRooms: Array<string>;
+  reservationList: Array<object>;
 }
 
 class MainInterface extends React.Component <{}, IState> {
@@ -15,20 +16,23 @@ class MainInterface extends React.Component <{}, IState> {
   state  = { 
    date: null,
    tableVisible: false,
-   meetingRooms: [
-     'vergaderzaal 1',
-     'vergaderzaal 2',
-     'vergaderzaal 3',
-     'vergaderzaal 4'
-   ]
+   meetingRooms: [],
+   reservationList: []
 
   };
+
+  componentWillMount() {
+    this.getMeetingRooms();
+  }
 
     // tslint:disable-next-line:no-any
   handleChange(event: any) {
     event.preventDefault();
     this.setState({date: event.target.value, tableVisible: true});
+    // call function to request all reservations on this date and put these in reservationList
   }
+
+  // add a function to fetch all reservations on selected date and push these in reservationList
 
   render() {
 
@@ -51,10 +55,24 @@ class MainInterface extends React.Component <{}, IState> {
             </div>
         </div>
         <div className="table" style={displayTable}>
-        <Table meetingRooms={this.state.meetingRooms} date={this.state.date} />
+        <Table  
+                meetingRooms={this.state.meetingRooms} 
+                date={this.state.date} 
+                reservations={this.state.reservationList}
+        />
         </div>
       </div>
     );
+  }
+  private getMeetingRooms = () => {
+    fetch('/meetingRooms', {
+      method: 'GET'
+    })
+    .then(res => res.json())
+    .then(res => this.setState({meetingRooms: res.rooms}))
+    // tslint:disable-next-line:no-console
+    .then((res) => console.log('Our state is: ', this.state));
+
   }
 }
 

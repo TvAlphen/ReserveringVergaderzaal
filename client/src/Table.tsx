@@ -1,9 +1,11 @@
 import * as React from 'react';
+import Reservation from './Reservation';
 
 // tslint:disable-next-line:interface-name
 interface IProps {
     meetingRooms: string[];
     date: Date | null;
+    reservations: object[];
 }
 
 class Table extends React.Component <IProps, {}> {
@@ -34,6 +36,10 @@ class Table extends React.Component <IProps, {}> {
                         {rows}
                     </tr>
                 </thead>
+                <tbody>
+                    {/* hier iets met reservations prop */}
+                    <Reservation/>
+                </tbody>
                 </table>
             </div>
         );
