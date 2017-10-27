@@ -1,38 +1,46 @@
 import * as React from 'react';
 import Reservations from './Reservations';
+import { IReservation } from './Reservations';
 import { Table, Row, Col } from 'reactstrap';
 import AddButton from './AddButton';
+import OverviewReservation from './OverviewReservation';
 
-// tslint:disable-next-line:interface-name
+// tslint:disable:interface-name
 interface IProps {
     meetingRooms: {id: number, name: string}[];
     date: Date | null;
-    reservations: {id: number, roomId: number, subject: string, startDate: Date, endDate: Date}[];
+    reservations: IReservation[];
+}
+interface IState {
+    reservation: IReservation;
+    tableVisible: boolean;
 }
 
-class OverviewTable extends React.Component <IProps, {}> {
+class OverviewTable extends React.Component <IProps, IState> {
     constructor(props: IProps) {
         super(props);
+        this.showReservation = this.showReservation.bind(this);
+        this.state = {
+            reservation: {
+                id: 1,
+                roomId: 1,
+                subject: 'string', 
+                startDate: new Date(),
+                endDate: new Date(),
+            },
+            tableVisible: false
+        };
+
     }
+
+    showReservation(item: IReservation) {
+        this.setState({reservation: item, tableVisible: !this.state.tableVisible});   
+    }
+    
     render() {
-        // let list = this.props.meetingRooms;
-        // let rooms: Array<JSX.Element> = [];
-        // let reserveringen = this.props.reservations;
-        // rooms = list.map(function(room: {id: number, name: string}, index: number) {
-        //     // filteren alles van die kamer -> list
-        //     let reservationsFiltered = reserveringen.filter(item => item.roomId === room.id);
-        //     return(                    
-        //         <tr key={index}>
-        //             <td className="left">{room.name}</td>
-        //             <td className="left">
-        //             <Reservations
-        //                 reservations={reservationsFiltered}
-        //             />
-        //             </td>
-        //         </tr>
-        //         );
-                
-        // });
+        var displayTable = {
+            display: this.state.tableVisible ? 'block' : 'none'
+          };
         // tslint:disable:jsx-boolean-value
         return(
             <div className="container">
@@ -58,11 +66,17 @@ class OverviewTable extends React.Component <IProps, {}> {
                             <Reservations
                                 reservations={this.props.reservations}
                                 roomID={room.id}
+                                onShow={this.showReservation}
                             />
                         </tr>
                     )}
                 </tbody>
                 </Table>
+                <div className="container" style={displayTable} >
+                    <OverviewReservation
+                        reservation={this.state.reservation}
+                    />
+                </div>
             </div> 
         );
     }

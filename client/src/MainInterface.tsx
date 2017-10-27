@@ -35,6 +35,14 @@ class MainInterface extends React.Component <{}, IState> {
     this.getReservationList();
   }
 
+  // deleteReservation()
+
+  // showReservation()
+
+  // toggleAddDisplay ()
+
+  // addReservation ()
+
   render() {
 
     var displayTable = {
@@ -55,7 +63,7 @@ class MainInterface extends React.Component <{}, IState> {
               <span className="input-group-addon col-auto"><FaCalendar size={28}/></span>
             </div>
         </div>
-        <div className="table" style={displayTable}>
+        <div className="container table" style={displayTable}>
         <OverviewTable  
                 meetingRooms={this.state.meetingRooms} 
                 date={this.state.date} 
