@@ -1,20 +1,35 @@
 import * as React from 'react';
-import { Button } from 'reactstrap';
 var FaPlus = require('react-icons/lib/fa/plus');
+import { Button } from 'reactstrap';
 
-interface MyProps {
-
+// tslint:disable:interface-name
+interface IProps {
+    onShow(): void;
+}
+interface IState {
+ 
 }
 
-class AddButton extends React.Component<MyProps> {
+class AddButton extends React.Component<IProps, IState> {
     // tslint:disable:jsx-boolean-value
+    constructor(props: IProps) {
+        super(props);
+        this.toggleDisplay = this.toggleDisplay.bind(this);
+
+    }
+
+    toggleDisplay() {
+        this.props.onShow();
+    }
+
     render() {
-          return (
-            <div>
-                        <Button outline color="primary " size="lg" block > 
-                            <FaPlus size={20}/> Reservering toevoegen
-                        </Button>
-            </div>    
+
+        return (
+        <div>
+            <Button outline color="primary" size="lg" block onClick={this.toggleDisplay}>
+                <FaPlus size={20}/> Reservering toevoegen
+            </Button>
+        </div>    
         );
     }
 }

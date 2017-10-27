@@ -4,6 +4,7 @@ import { IReservation } from './Reservations';
 import { Table, Row, Col } from 'reactstrap';
 import AddButton from './AddButton';
 import OverviewReservation from './OverviewReservation';
+import { Collapse, Card } from 'reactstrap';
 
 // tslint:disable:interface-name
 interface IProps {
@@ -14,6 +15,7 @@ interface IProps {
 interface IState {
     reservation: IReservation;
     tableVisible: boolean;
+    formVisible: boolean;
 }
 
 class OverviewTable extends React.Component <IProps, IState> {
@@ -21,6 +23,7 @@ class OverviewTable extends React.Component <IProps, IState> {
         super(props);
         this.showReservation = this.showReservation.bind(this);
         this.hideReservation = this.hideReservation.bind(this);
+        this.showForm = this.showForm.bind(this);
         this.state = {
             reservation: {
                 id: 1,
@@ -29,7 +32,8 @@ class OverviewTable extends React.Component <IProps, IState> {
                 startDate: new Date(),
                 endDate: new Date(),
             },
-            tableVisible: false
+            tableVisible: false,
+            formVisible: false
         };
 
     }
@@ -40,6 +44,10 @@ class OverviewTable extends React.Component <IProps, IState> {
     
     hideReservation() {
         this.setState({tableVisible: false});   
+    }
+
+    showForm() { 
+        this.setState({ formVisible: !this.state.formVisible});
     }
     
     render() {
@@ -54,9 +62,18 @@ class OverviewTable extends React.Component <IProps, IState> {
                         <h1 className="tableTitle"> Beschikbaarheid Vergaderzalen van 9:00-18:00</h1>
                     </Col>
                     <Col xs="3">
-                        <AddButton/>
+                        <AddButton
+                            onShow={this.showForm}
+                        />
                     </Col>
                 </Row>
+                <div>
+                    <Collapse isOpen={this.state.formVisible}>
+                        <Card outline color="primary">
+                           <form/>
+                        </Card>
+                    </Collapse>
+                </div>
                 <Table className="table" bordered striped>
                  <thead>
                     <tr>

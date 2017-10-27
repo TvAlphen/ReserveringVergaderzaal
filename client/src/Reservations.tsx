@@ -23,9 +23,7 @@ class Reservations extends React.Component <IProps, IState> {
     // tslint:disable:max-line-length
     constructor(props: IProps) {
         super(props);
-        this.state = {
-            modal: false
-        };
+    
     }
 
     handleShow(reservation: IReservation) {
