@@ -1,14 +1,16 @@
 import * as React from 'react';
-import Table from './Table';
+import OverviewTable from './OverviewTable';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+var FaCalendar = require('react-icons/lib/fa/calendar');
 
 // tslint:disable-next-line:interface-name
 interface IState {
   date: Date | null;
   tableVisible: boolean;
-  meetingRooms: Array<string>;
-  reservationList: Array<object>;
+  reservationVisible: boolean;
+  meetingRooms: Array<{}>;
+  reservationList: Array<{}>;
 }
 
 class MainInterface extends React.Component <{}, IState> {
@@ -16,6 +18,7 @@ class MainInterface extends React.Component <{}, IState> {
   state  = { 
    date: null,
    tableVisible: false,
+   reservationVisible: false,
    meetingRooms: [],
    reservationList: []
 
@@ -29,10 +32,8 @@ class MainInterface extends React.Component <{}, IState> {
   handleChange(event: any) {
     event.preventDefault();
     this.setState({date: event.target.value, tableVisible: true});
-    // call function to request all reservations on this date and put these in reservationList
+    this.getReservationList();
   }
-
-  // add a function to fetch all reservations on selected date and push these in reservationList
 
   render() {
 
@@ -44,18 +45,18 @@ class MainInterface extends React.Component <{}, IState> {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Maak een reservering:</h2>
+          <h2>Selecteer een datum:</h2>
         </div>
         <div className="container">
             <div className="row justify-content-center input-group input-group-lg">
               <span className="input-group-addon col-auto">Select Date: </span>
               {/* <input className="col-2 form-control" type="date" onChange={this.handleChange.bind(this)}/> */}
               <input className="col-2 form-control" type="date" onChange={(event) => {this.handleChange(event); }}/>
-              <span className="input-group-addon col-auto glyphicon glyphicon-calendar" />
+              <span className="input-group-addon col-auto"><FaCalendar size={28}/></span>
             </div>
         </div>
         <div className="table" style={displayTable}>
-        <Table  
+        <OverviewTable  
                 meetingRooms={this.state.meetingRooms} 
                 date={this.state.date} 
                 reservations={this.state.reservationList}
@@ -72,7 +73,15 @@ class MainInterface extends React.Component <{}, IState> {
     .then(res => this.setState({meetingRooms: res.rooms}))
     // tslint:disable-next-line:no-console
     .then((res) => console.log('Our state is: ', this.state));
-
+  }
+  // add a function to fetch all reservations on selected date and push these in reservationList
+  private getReservationList = () => {
+    // nog iets met date toevoegen querry 
+    fetch('/reservations', {
+      method: 'GET'
+    })
+    .then(res => res.json())
+    .then(res => this.setState({reservationList: res.reservations}));
   }
 }
 
