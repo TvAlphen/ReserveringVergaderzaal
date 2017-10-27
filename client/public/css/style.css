@@ -60,3 +60,16 @@ header .header-brand h1 {
 .left{
   text-align: left;
 }
+
+.panel-header{
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.cancelButton, .deleteButton {
+  float:right;
+}
+
+.deleteButton{
+  margin-right: 3px;
+}

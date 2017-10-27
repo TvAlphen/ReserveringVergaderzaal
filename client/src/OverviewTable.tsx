@@ -20,6 +20,7 @@ class OverviewTable extends React.Component <IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.showReservation = this.showReservation.bind(this);
+        this.hideReservation = this.hideReservation.bind(this);
         this.state = {
             reservation: {
                 id: 1,
@@ -34,7 +35,11 @@ class OverviewTable extends React.Component <IProps, IState> {
     }
 
     showReservation(item: IReservation) {
-        this.setState({reservation: item, tableVisible: !this.state.tableVisible});   
+        this.setState({reservation: item, tableVisible: true});   
+    }
+    
+    hideReservation() {
+        this.setState({tableVisible: false});   
     }
     
     render() {
@@ -46,7 +51,7 @@ class OverviewTable extends React.Component <IProps, IState> {
             <div className="container">
                 <Row>
                     <Col xs="9">
-                        <h1 className="tableTitle"> Beschikbaarheid Vergaderzalen {this.props.date} van 9:00-18:00</h1>
+                        <h1 className="tableTitle"> Beschikbaarheid Vergaderzalen van 9:00-18:00</h1>
                     </Col>
                     <Col xs="3">
                         <AddButton/>
@@ -75,6 +80,8 @@ class OverviewTable extends React.Component <IProps, IState> {
                 <div className="container" style={displayTable} >
                     <OverviewReservation
                         reservation={this.state.reservation}
+                        meetingRooms={this.props.meetingRooms}
+                        onNoShow={this.hideReservation}
                     />
                 </div>
             </div> 
