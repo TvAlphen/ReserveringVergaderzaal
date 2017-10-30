@@ -6,7 +6,7 @@ var FaCalendar = require('react-icons/lib/fa/calendar');
 
 // tslint:disable-next-line:interface-name
 interface IState {
-  date: Date | null;
+  date: Date;
   tableVisible: boolean;
   reservationVisible: boolean;
   meetingRooms: Array<{}>;
@@ -16,7 +16,7 @@ interface IState {
 class MainInterface extends React.Component <{}, IState> {
   // initial state
   state  = { 
-   date: null,
+   date: new Date, 
    tableVisible: false,
    reservationVisible: false,
    meetingRooms: [],
@@ -34,14 +34,6 @@ class MainInterface extends React.Component <{}, IState> {
     this.setState({date: event.target.value, tableVisible: true});
     this.getReservationList();
   }
-
-  // deleteReservation()
-
-  // showReservation()
-
-  // toggleAddDisplay ()
-
-  // addReservation ()
 
   render() {
 
@@ -82,9 +74,8 @@ class MainInterface extends React.Component <{}, IState> {
     // tslint:disable-next-line:no-console
     .then((res) => console.log('Our state is: ', this.state));
   }
-  // add a function to fetch all reservations on selected date and push these in reservationList
+
   private getReservationList = () => {
-    // nog iets met date toevoegen querry 
     fetch('/reservations', {
       method: 'GET'
     })

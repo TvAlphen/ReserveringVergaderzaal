@@ -3,13 +3,14 @@ import Reservations from './Reservations';
 import { IReservation } from './Reservations';
 import { Table, Row, Col } from 'reactstrap';
 import AddButton from './AddButton';
+import AddReservation from './AddReservation';
 import OverviewReservation from './OverviewReservation';
 import { Collapse, Card } from 'reactstrap';
 
 // tslint:disable:interface-name
 interface IProps {
-    meetingRooms: {id: number, name: string}[];
-    date: Date | null;
+    meetingRooms: {room_id: number, room_name: string}[];
+    date: Date;
     reservations: IReservation[];
 }
 interface IState {
@@ -26,11 +27,11 @@ class OverviewTable extends React.Component <IProps, IState> {
         this.showForm = this.showForm.bind(this);
         this.state = {
             reservation: {
-                id: 1,
-                roomId: 1,
+                reservation_id: 1,
+                room_id: 1,
                 subject: 'string', 
-                startDate: new Date(),
-                endDate: new Date(),
+                start_date: new Date(),
+                end_date: new Date(),
             },
             tableVisible: false,
             formVisible: false
@@ -70,7 +71,11 @@ class OverviewTable extends React.Component <IProps, IState> {
                 <div>
                     <Collapse isOpen={this.state.formVisible}>
                         <Card outline color="primary">
-                           <form/>
+                           <AddReservation
+                                meetingRooms={this.props.meetingRooms}
+                                date={this.props.date}
+                                reservations={this.props.reservations}
+                           />
                         </Card>
                     </Collapse>
                 </div>
@@ -84,11 +89,12 @@ class OverviewTable extends React.Component <IProps, IState> {
                 <tbody>
                     {this.props.meetingRooms.map((room, index) =>            
                         <tr key={index}>
-                            <td className="left">{room.name}</td>
+                            <td className="left">{room.room_name}</td>
                             <Reservations
                                 reservations={this.props.reservations}
-                                roomID={room.id}
+                                roomID={room.room_id}
                                 onShow={this.showReservation}
+                                date={this.props.date}
                             />
                         </tr>
                     )}
