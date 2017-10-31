@@ -65,6 +65,7 @@ class OverviewTable extends React.Component <IProps, IState> {
                     <Col xs="3">
                         <AddButton
                             onShow={this.showForm}
+                            formVisible={this.state.formVisible}
                         />
                     </Col>
                 </Row>
@@ -75,6 +76,7 @@ class OverviewTable extends React.Component <IProps, IState> {
                                 meetingRooms={this.props.meetingRooms}
                                 date={this.props.date}
                                 reservations={this.props.reservations}
+                                onShow={this.showForm}
                            />
                         </Card>
                     </Collapse>

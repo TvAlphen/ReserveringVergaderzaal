@@ -21,9 +21,9 @@ class App {
         //reservation => id: number, roomId: number, subject: string, startDate: Date, endDate: Date
         router.get('/reservations', (req, res) => {
             const reservering = { reservations: [
-                    { reservation_id: 1, room_id: 1, subject: 'random', start_date: "2017-10-12T11:00:00", end_date: "2017-10-12T12:00:00" },
-                    { reservation_id: 2, room_id: 1, subject: 'whatever', start_date: "2017-10-12T13:00:00", end_date: "2017-10-12T15:00:00" },
-                    { reservation_id: 3, room_id: 3, subject: 'whatever', start_date: "2017-10-12T13:00:00", end_date: "2017-10-12T15:00:00" }
+                    { reservation_id: 1, room_id: 1, subject: 'random', start_date: "2017-10-12 11:00:00", end_date: "2017-10-12 12:00:00" },
+                    { reservation_id: 2, room_id: 1, subject: 'whatever', start_date: "2017-10-12 13:00:00", end_date: "2017-10-12 15:00:00" },
+                    { reservation_id: 3, room_id: 3, subject: 'whatever', start_date: "2017-10-12 13:00:00", end_date: "2017-10-12 15:00:00" }
                 ]
             };
             res.json(reservering);
