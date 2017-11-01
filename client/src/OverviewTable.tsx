@@ -12,6 +12,8 @@ interface IProps {
     meetingRooms: {room_id: number, room_name: string}[];
     date: Date;
     reservations: IReservation[];
+    addReservation(reservation: IReservation): void;
+    deleteReservation(reservation: IReservation): void;
 }
 interface IState {
     reservation: IReservation;
@@ -30,8 +32,8 @@ class OverviewTable extends React.Component <IProps, IState> {
                 reservation_id: 1,
                 room_id: 1,
                 subject: 'string', 
-                start_date: new Date(),
-                end_date: new Date(),
+                start_date: '1989-11-13',
+                end_date: '1989-11-13',
             },
             tableVisible: false,
             formVisible: false
@@ -77,6 +79,7 @@ class OverviewTable extends React.Component <IProps, IState> {
                                 date={this.props.date}
                                 reservations={this.props.reservations}
                                 onShow={this.showForm}
+                                addReservation={this.props.addReservation}
                            />
                         </Card>
                     </Collapse>
@@ -107,6 +110,7 @@ class OverviewTable extends React.Component <IProps, IState> {
                         reservation={this.state.reservation}
                         meetingRooms={this.props.meetingRooms}
                         onNoShow={this.hideReservation}
+                        deleteReservation={this.props.deleteReservation}
                     />
                 </div>
             </div> 

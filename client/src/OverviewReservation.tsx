@@ -8,6 +8,7 @@ interface IProps {
     reservation: IReservation;
     meetingRooms: {room_id: number, room_name: string}[];
     onNoShow(): void;
+    deleteReservation(reservation: IReservation): void;
 }
 interface IState {
   
@@ -20,6 +21,11 @@ class OverviewReservation extends React.Component <IProps, IState> {
     }
 
     handleNoShow() {
+        this.props.onNoShow();
+    }
+
+    handleDelete(reservation: IReservation) {
+        this.props.deleteReservation(reservation);
         this.props.onNoShow();
     }
 
@@ -38,7 +44,7 @@ class OverviewReservation extends React.Component <IProps, IState> {
                         <div className="panel-header panel-heading">
                             Reservering: {new Date(this.props.reservation.start_date).getDate() + '-' + (new Date(this.props.reservation.start_date).getMonth() + 1).toString() + '-' + new Date(this.props.reservation.start_date).getFullYear()}
                             <button onClick={(event) => this.handleNoShow()} className="cancelButton"><FaClose size="20"/></button>
-                            <button className="deleteButton">Delete <FaTrash size="20"/></button></div>
+                            <button onClick={(event) => this.handleDelete(this.props.reservation)} className="deleteButton">Delete <FaTrash size="20"/></button></div>
                         <div className="panel-body">
                             <dl className="dl-horizontal">
                             <dt>Vergaderzaal:</dt><dd> {nameRoom} </dd>

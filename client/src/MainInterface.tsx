@@ -1,29 +1,36 @@
 import * as React from 'react';
 import OverviewTable from './OverviewTable';
+import { IReservation } from './Reservations';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 var FaCalendar = require('react-icons/lib/fa/calendar');
+var _ = require('lodash');
 
 // tslint:disable-next-line:interface-name
 interface IState {
   date: Date;
   tableVisible: boolean;
   reservationVisible: boolean;
-  meetingRooms: Array<{}>;
-  reservationList: Array<{}>;
+  meetingRooms: {room_id: number, room_name: string}[];
+  reservationList: IReservation[];
 }
 
 class MainInterface extends React.Component <{}, IState> {
-  // initial state
-  state  = { 
-   date: new Date, 
-   tableVisible: false,
-   reservationVisible: false,
-   meetingRooms: [],
-   reservationList: []
-
-  };
-
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+    this.addReservation = this.addReservation.bind(this);
+    this.deleteReservation = this.deleteReservation.bind(this);
+    // initial state
+    this.state  = { 
+    date: new Date, 
+    tableVisible: false,
+    reservationVisible: false,
+    meetingRooms: [],
+    // tslint:disable-next-line:max-line-length
+    reservationList: [ {reservation_id: 1, room_id: 1, subject: 'random', start_date: '2017-10-12 11:00:00', end_date: '2017-10-12 12:00:00'} ]
+    };
+  }
   componentWillMount() {
     this.getMeetingRooms();
   }
@@ -33,6 +40,19 @@ class MainInterface extends React.Component <{}, IState> {
     event.preventDefault();
     this.setState({date: event.target.value, tableVisible: true});
     this.getReservationList();
+  }
+
+  addReservation(reservation: IReservation) {
+    let newList = this.state.reservationList;
+    newList.push(reservation);
+    this.setState({reservationList: newList});
+
+  }
+
+  deleteReservation(reservation: IReservation) {
+    let currentList = this.state.reservationList;
+    let newList = _.without(currentList, reservation);
+    this.setState({reservationList: newList});
   }
 
   render() {
@@ -60,6 +80,8 @@ class MainInterface extends React.Component <{}, IState> {
                 meetingRooms={this.state.meetingRooms} 
                 date={this.state.date} 
                 reservations={this.state.reservationList}
+                addReservation={this.addReservation}
+                deleteReservation={this.deleteReservation}
         />
         </div>
       </div>
@@ -72,7 +94,7 @@ class MainInterface extends React.Component <{}, IState> {
     .then(res => res.json())
     .then(res => this.setState({meetingRooms: res.rooms}))
     // tslint:disable-next-line:no-console
-    .then((res) => console.log('Our state is: ', this.state));
+    .catch((error) => console.log('Error Fetch: ' + error));
   }
 
   private getReservationList = () => {
@@ -80,7 +102,9 @@ class MainInterface extends React.Component <{}, IState> {
       method: 'GET'
     })
     .then(res => res.json())
-    .then(res => this.setState({reservationList: res.reservations}));
+    .then(res => this.setState({reservationList: res.reservations}))
+    // tslint:disable-next-line:no-console
+    .catch((error) => console.log('Error Fetch: ' + error));
   }
 }
 
