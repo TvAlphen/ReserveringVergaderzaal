@@ -1,10 +1,10 @@
-import * as express from 'express';
-import path = require('path');
-import app from './App';
+var express = require ('express');
+var path = require('path');
+var app = require('./app');
 
 const port = 5000;
 
-app.listen(port, (err) => {
+app.default.listen(port, (err) => {
     if (err) {
       return console.log(err)
     }

@@ -31,14 +31,15 @@ class MainInterface extends React.Component <{}, IState> {
     reservationList: [ {reservation_id: 1, room_id: 1, subject: 'random', start_date: '2017-10-12 11:00:00', end_date: '2017-10-12 12:00:00'} ]
     };
   }
-  componentWillMount() {
-    this.getMeetingRooms();
-  }
+  // componentWillMount() {
+    
+  // }
 
     // tslint:disable-next-line:no-any
   handleChange(event: any) {
     event.preventDefault();
     this.setState({date: event.target.value, tableVisible: true});
+    this.getMeetingRooms();
     this.getReservationList();
   }
 
@@ -46,13 +47,25 @@ class MainInterface extends React.Component <{}, IState> {
     let newList = this.state.reservationList;
     newList.push(reservation);
     this.setState({reservationList: newList});
-
+    const url = '/api/reservations';
+    fetch(url, {
+      method: 'POST',
+      headers: new Headers({'Content-Type': 'application/json'}),
+      body: JSON.stringify(reservation)
+    // tslint:disable-next-line:no-console
+    }).catch(error => console.log('Error Fetch : ' + error));
   }
 
   deleteReservation(reservation: IReservation) {
     let currentList = this.state.reservationList;
     let newList = _.without(currentList, reservation);
     this.setState({reservationList: newList});
+    let id = reservation.reservation_id;
+    const url = '/api/delete/' + id;
+    fetch(url, {
+      method: 'DELETE'
+    // tslint:disable-next-line:no-console
+    }).catch(error => console.log('Error Fetch : ' + error));
   }
 
   render() {
@@ -88,21 +101,23 @@ class MainInterface extends React.Component <{}, IState> {
     );
   }
   private getMeetingRooms = () => {
-    fetch('/meetingRooms', {
+    fetch('api/meetingRooms', {
       method: 'GET'
     })
     .then(res => res.json())
-    .then(res => this.setState({meetingRooms: res.rooms}))
+    // tslint:disable-next-line:no-console
+    .then(res => this.setState({meetingRooms: res}))
+   
     // tslint:disable-next-line:no-console
     .catch((error) => console.log('Error Fetch: ' + error));
   }
 
   private getReservationList = () => {
-    fetch('/reservations', {
+    fetch('api/reservations', {
       method: 'GET'
     })
     .then(res => res.json())
-    .then(res => this.setState({reservationList: res.reservations}))
+    .then(res => this.setState({reservationList: res}))
     // tslint:disable-next-line:no-console
     .catch((error) => console.log('Error Fetch: ' + error));
   }
